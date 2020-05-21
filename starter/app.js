@@ -9,14 +9,22 @@ let budgetController = (function(){
 //Let now create the controller for the Ui  IIFI
 
 let UIController = (function(){
+//Creating the DOM Variables
+
+var domStrings = {
+    inputDescription: '.add__description',
+    inputType : '.add__type',
+    inputForValue: '.add__value'
+}
+
 //Now what do we need here to return in the app controller? 
 //Getting the input
 return {
     getInput: function(){
         return  {
-            description:  document.querySelector('.add__description').value,
-            type: document.querySelector('.add__type').value,
-            value: document.querySelector('.add__value').value
+            description:  document.querySelector(domStrings.inputDescription).value,
+            type: document.querySelector(domStrings.inputType).value,
+            value: document.querySelector(domStrings.inputForValue).value
         };
     }
     
