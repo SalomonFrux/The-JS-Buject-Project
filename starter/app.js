@@ -32,9 +32,14 @@ let budgetController = (function(){
         addItem : function(type, des, val){
             var newItem, ID; 
             
-            //Create a new ID
-            ID = data.allItems[type][data.allItems[type].length-1].id + 1;
-            
+            if(data.allItems[type].length> 0){
+                //Create a new ID
+              ID = data.allItems[type][data.allItems[type].length-1].id + 1;
+                
+            }else{
+                ID=0
+            }
+           
             if(type === 'exp'){
                 newItem = new Expenses(ID, des, val)
                 
@@ -47,9 +52,14 @@ let budgetController = (function(){
         
         //return the new Item 
         return newItem;
+        },
+
+        testing : function(){
+            console.log(data);
         }
 
     }
+
 
     
 })()
@@ -94,18 +104,25 @@ return {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //APP CONTROLLER
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+let  AppController, appCtrlAddItems, setUpEventListeners, newItemCreated;
 //This takes in the two Ctrl above and calls them 
-let AppController = (function(uiCtrl, BgtCtrl ){
+ AppController = (function(uiCtrl, BgtCtrl ){
 
-    var  domStrings = uiCtrl.getDomString();    
-//The function that will add the items
-var appCtrlAddItems = function(){
-    let input = uiCtrl.getInput()
+    let  domStrings = uiCtrl.getDomString();    
+
+ appCtrlAddItems = function(){
+     //1 get the input elements from the user
+    let input = uiCtrl.getInput();
+
+    //2 Add the input values to the budget controller
+ newItemCreated = BgtCtrl.addItem(input.type, input.description, input.value);
+
+    //3 Add the values to the UI 
 }
  
 
-    let setUpEventListeners = function(){
+
+     setUpEventListeners = function(){
  //If button pressed fired an event 
  document.querySelector(domStrings.addBtnCheckMark).addEventListener('click', appCtrlAddItems)
  //Fire  an event when the enter key is pressed.
