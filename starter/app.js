@@ -1,12 +1,62 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//THE BUDGET CONTROLLER
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-//Separation of concern: this is the controller that does the calculation IIFI
 let budgetController = (function(){
 
+    let Incomes = function(id, description, value){
+        this.id = id,
+        this.description = description,
+        this.value = value
+    }
 
+    let Expenses = function(id, description, value){
+        this.id = id,
+        this.description = description,
+        this.value = value
+    }
+//Object
+    let data = {
+        //Properties
+        allItems :{
+            exp:[],
+            inc: []
+        },
+        totals :{
+            exp :0,
+            inc : 0
+        }
+    }
+
+    return {
+        addItem : function(type, des, val){
+            var newItem, ID; 
+            
+            //Create a new ID
+            ID = data.allItems[type][data.allItems[type].length-1].id + 1;
+            
+            if(type === 'exp'){
+                newItem = new Expenses(ID, des, val)
+                
+            }else if(type==='inc'){
+                newItem = new
+                 Incomes(ID, des, val)
+            }
+            //Push it into our data structure
+        data.allItems[type].push(newItem);
+        
+        //return the new Item 
+        return newItem;
+        }
+
+    }
+
+    
 })()
 
-//Let now create the controller for the Ui  IIFI
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//THE UI CONTROLLER
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let UIController = (function(){
 //Creating the DOM Variables
@@ -14,7 +64,8 @@ let UIController = (function(){
 var domStrings = {
     inputDescription: '.add__description',
     inputType : '.add__type',
-    inputForValue: '.add__value'
+    inputForValue: '.add__value',
+    addBtnCheckMark: '.add__btn'
 }
 
 //Now what do we need here to return in the app controller? 
@@ -26,32 +77,37 @@ return {
             type: document.querySelector(domStrings.inputType).value,
             value: document.querySelector(domStrings.inputForValue).value
         };
+    },
+    
+    getDomString: function (){
+        return domStrings;
     }
     
 }
+
 
 })()
 
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//APP CONTROLLER
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //This takes in the two Ctrl above and calls them 
 let AppController = (function(uiCtrl, BgtCtrl ){
 
-    
+    var  domStrings = uiCtrl.getDomString();    
 //The function that will add the items
 var appCtrlAddItems = function(){
     let input = uiCtrl.getInput()
-    console.log(input);
 }
-//Getting the input
  
 
+    let setUpEventListeners = function(){
  //If button pressed fired an event 
- 
- document.querySelector('.add__btn').addEventListener('click', appCtrlAddItems)
-
+ document.querySelector(domStrings.addBtnCheckMark).addEventListener('click', appCtrlAddItems)
  //Fire  an event when the enter key is pressed.
  document.addEventListener('keypress', function(e){
      if(e.keyCode ===13 || e.which ===13){
@@ -59,5 +115,18 @@ var appCtrlAddItems = function(){
      }
  })
 
+    }
+
+ return {
+     Initializer: function()
+     {
+       console.log('The application has started')
+        setUpEventListeners();
+    }
+ }
+
 })(UIController, budgetController)
 
+
+
+AppController.Initializer();
