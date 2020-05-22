@@ -114,8 +114,20 @@ return {
         newHtml = newHtml.replace('%value%', obj.value);
         //3 Insert the element into the dom using insertAdjacent Method / But where to insert? 
         document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
-    }
-     
+    },
+
+    clearFields : function(){
+     let fieldsToClear =  document.querySelectorAll(domStrings.inputDescription + ',' + domStrings.inputForValue);
+      
+      //This convert the fieldsToClear to an Array because the querySelectorAll fn return a list 
+     let arrOfFieldsToClear=  Array.prototype.slice.call(fieldsToClear);
+        
+      arrOfFieldsToClear.forEach(function(iAtIndexZero, iSmallerThanArrayLength, theArrayItself){
+          //The fields will be cleared if we set the value of the current element 'iAtIndexZero' to empty
+          iAtIndexZero.value = "";
+      })
+      
+    } 
 }
 
 
@@ -140,8 +152,13 @@ let  AppController, appCtrlAddItems, setUpEventListeners, newItemCreated, input,
     //2 Add the input values to the budget controller
  newItemCreated = BgtCtrl.addItem(input.type, input.description, input.value);
 
-    //3 Add the values to the UI 
+  
+    //4 Add the values to the UI 
     userValues = uiCtrl.showUserItem(newItemCreated, input.type)
+
+      //3 clear the fields 
+     uiCtrl.clearFields();
+
 }
  
 
