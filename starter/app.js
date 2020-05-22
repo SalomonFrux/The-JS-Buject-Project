@@ -75,7 +75,9 @@ var domStrings = {
     inputDescription: '.add__description',
     inputType : '.add__type',
     inputForValue: '.add__value',
-    addBtnCheckMark: '.add__btn'
+    addBtnCheckMark: '.add__btn',
+    incContainer : '.income__list',
+    expContainer : '.expenses__list'
 }
 
 
@@ -96,20 +98,22 @@ return {
 
     showUserItem: function(obj, type){
 
-        let html
+        let html, element;
 
         //1 Create the Html element
         if(type === 'inc'){
+            element = domStrings.incContainer;
             html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
         }else if(type ==='exp'){
-           
+           element = domStrings.expContainer;
             html ='<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
         }
         //2 Replace the values with  the fn params
         let newHtml = html.replace('%id%', obj.id);
-        
-
-        //3 Insert the element into the dom using insertAdjacent Method
+        newHtml = newHtml.replace('%description%', obj.description);
+        newHtml = newHtml.replace('%value%', obj.value);
+        //3 Insert the element into the dom using insertAdjacent Method / But where to insert? 
+        document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     }
      
 }
@@ -123,7 +127,7 @@ return {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //APP CONTROLLER
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-let  AppController, appCtrlAddItems, setUpEventListeners, newItemCreated;
+let  AppController, appCtrlAddItems, setUpEventListeners, newItemCreated, input, userValues;
 //This takes in the two Ctrl above and calls them 
  AppController = (function(uiCtrl, BgtCtrl ){
 
@@ -131,12 +135,13 @@ let  AppController, appCtrlAddItems, setUpEventListeners, newItemCreated;
 
  appCtrlAddItems = function(){
      //1 get the input elements from the user
-    let input = uiCtrl.getInput();
+     input = uiCtrl.getInput();
 
     //2 Add the input values to the budget controller
  newItemCreated = BgtCtrl.addItem(input.type, input.description, input.value);
 
     //3 Add the values to the UI 
+    userValues = uiCtrl.showUserItem(newItemCreated, input.type)
 }
  
 
