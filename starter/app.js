@@ -78,6 +78,7 @@ var domStrings = {
     addBtnCheckMark: '.add__btn'
 }
 
+
 //Now what do we need here to return in the app controller? 
 //Getting the input
 return {
@@ -91,8 +92,17 @@ return {
     
     getDomString: function (){
         return domStrings;
+    },
+
+    showUserItem: function(){
+
+        //1 Create the Html element
+        
+        //2 Replace the values with  the fn params
+
+        //3 Insert the element into the dom using insertAdjacent Method
     }
-    
+     
 }
 
 
