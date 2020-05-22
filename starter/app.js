@@ -94,11 +94,20 @@ return {
         return domStrings;
     },
 
-    showUserItem: function(){
+    showUserItem: function(obj, type){
+
+        let html
 
         //1 Create the Html element
-        
+        if(type === 'inc'){
+            html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+        }else if(type ==='exp'){
+           
+            html ='<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+        }
         //2 Replace the values with  the fn params
+        let newHtml = html.replace('%id%', obj.id);
+        
 
         //3 Insert the element into the dom using insertAdjacent Method
     }
